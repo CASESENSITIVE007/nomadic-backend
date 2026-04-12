@@ -1,0 +1,662 @@
+{
+  "info": {
+    "_postman_id": "nomadic-view-api-v1",
+    "name": "Nomadic View API",
+    "description": "Complete API collection for Nomadic View - Travel Itinerary Planner",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/auth/me"
+          }
+        },
+        {
+          "name": "Logout User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/auth/logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/profile"
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/users/profile",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\",\n  \"bio\": \"Travel enthusiast\",\n  \"location\": \"Mumbai, India\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload Avatar",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/avatar",
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "avatar", "type": "file", "src": "/path/to/avatar.jpg" }]
+            }
+          }
+        },
+        {
+          "name": "Search Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/search?query=john"
+          }
+        },
+        {
+          "name": "Get Saved Places",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/saved-places"
+          }
+        },
+        {
+          "name": "Save Place",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/users/saved-places",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"placeId\": \"place_id_here\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Notifications",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/users/notifications"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trips",
+      "item": [
+        {
+          "name": "Create Trip",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/trips",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Goa Beach Vacation\",\n  \"description\": \"Weekend trip to Goa\",\n  \"destination\": \"Goa\",\n  \"startDate\": \"2024-04-15\",\n  \"endDate\": \"2024-04-18\",\n  \"budget\": {\n    \"total\": 25000,\n    \"currency\": \"INR\"\n  },\n  \"travelStyle\": \"relaxed\",\n  \"preferences\": [\"beach\", \"food\", \"nightlife\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Trips",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/trips?page=1&limit=10"
+          }
+        },
+        {
+          "name": "Get Trip by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}"
+          }
+        },
+        {
+          "name": "Update Trip",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Trip Name\",\n  \"description\": \"Updated description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Trip",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}"
+          }
+        },
+        {
+          "name": "Add Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}/activities",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayNumber\": 1,\n  \"time\": \"10:00\",\n  \"title\": \"Visit Beach\",\n  \"description\": \"Relax at Baga Beach\",\n  \"type\": \"sightseeing\",\n  \"duration\": 3,\n  \"cost\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "Generate AI Itinerary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}/generate-itinerary",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preferences\": [\"adventure\", \"nature\"],\n  \"budget\": 20000,\n  \"travelers\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Export Trip PDF",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/trips/{{tripId}}/export"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Places",
+      "item": [
+        {
+          "name": "Get All Places",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places?page=1&limit=10"
+          }
+        },
+        {
+          "name": "Get Place by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places/{{placeId}}"
+          }
+        },
+        {
+          "name": "Search Places",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places/search?query=goa"
+          }
+        },
+        {
+          "name": "Get Places by State",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places/state/kerala"
+          }
+        },
+        {
+          "name": "Get Places by Type",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places/type/beach"
+          }
+        },
+        {
+          "name": "Get Nearby Places",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/places/nearby?lat=19.0760&lng=72.8777&radius=5000"
+          }
+        },
+        {
+          "name": "Create Place (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/places",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Destination\",\n  \"description\": \"Beautiful place\",\n  \"state\": \"Kerala\",\n  \"type\": [\"beach\", \"nature\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expenses",
+      "item": [
+        {
+          "name": "Get Trip Expenses",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/expenses/trip/{{tripId}}"
+          }
+        },
+        {
+          "name": "Add Expense",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/expenses",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip\": \"{{tripId}}\",\n  \"description\": \"Hotel Booking\",\n  \"amount\": 5000,\n  \"category\": \"accommodation\",\n  \"paidBy\": \"user_id\",\n  \"splitType\": \"equal\",\n  \"splitWith\": [\"user1\", \"user2\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Settlements",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/expenses/trip/{{tripId}}/settlements"
+          }
+        },
+        {
+          "name": "Get Expense Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/expenses/trip/{{tripId}}/summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Get Trip Documents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/documents/trip/{{tripId}}"
+          }
+        },
+        {
+          "name": "Upload Document",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/documents",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "file", "type": "file", "src": "/path/to/document.pdf" },
+                { "key": "tripId", "value": "{{tripId}}", "type": "text" },
+                { "key": "name", "value": "Hotel Booking", "type": "text" },
+                { "key": "type", "value": "booking", "type": "text" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download Document",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/documents/{{documentId}}/download"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/documents/{{documentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "AI Services",
+      "item": [
+        {
+          "name": "Generate Itinerary",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/ai/itinerary",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Goa\",\n  \"duration\": 3,\n  \"budget\": 20000,\n  \"travelers\": 2,\n  \"preferences\": [\"beach\", \"food\"],\n  \"travelStyle\": \"relaxed\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Recommendations",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/ai/recommendations",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Manali\",\n  \"preferences\": [\"adventure\", \"nature\"],\n  \"budget\": 5000\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Packing List",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/ai/packing-list",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Manali\",\n  \"weather\": \"cold\",\n  \"duration\": 5,\n  \"activities\": [\"trekking\", \"sightseeing\"]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Budget Tips",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/ai/budget-tips",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentBudget\": 25000,\n  \"destination\": \"Goa\",\n  \"duration\": 4\n}"
+            }
+          }
+        },
+        {
+          "name": "Chat with AI",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/ai/chat",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"What are the best places to visit in Kerala?\",\n  \"context\": {\"destination\": \"Kerala\", \"duration\": 5}\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Weather",
+      "item": [
+        {
+          "name": "Get Current Weather",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/weather/current?city=Mumbai"
+          }
+        },
+        {
+          "name": "Get Weather by Coordinates",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/weather/current?lat=19.0760&lng=72.8777"
+          }
+        },
+        {
+          "name": "Get Weather Forecast",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/weather/forecast?city=Delhi&days=5"
+          }
+        },
+        {
+          "name": "Get Batch Weather",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/weather/batch",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cities\": [\"Mumbai\", \"Delhi\", \"Bangalore\"]\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maps",
+      "item": [
+        {
+          "name": "Geocode Address",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/geocode?address=Gateway%20of%20India%20Mumbai"
+          }
+        },
+        {
+          "name": "Reverse Geocode",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/reverse-geocode?lat=19.0760&lng=72.8777"
+          }
+        },
+        {
+          "name": "Get Place Details",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/place/ChIJwe1EZjDG5zsRaYxkjY_tpF0"
+          }
+        },
+        {
+          "name": "Search Nearby Places",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/nearby?lat=19.0760&lng=72.8777&radius=5000&type=restaurant"
+          }
+        },
+        {
+          "name": "Get Directions",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/directions?origin=Mumbai&destination=Pune"
+          }
+        },
+        {
+          "name": "Autocomplete Places",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/autocomplete?input=Mumbai%20Gate"
+          }
+        },
+        {
+          "name": "Get Emergency Services",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/maps/emergency-services?lat=19.0760&lng=72.8777"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Share",
+      "item": [
+        {
+          "name": "Generate Share Link",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/share/trip/{{tripId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permissions\": \"view\",\n  \"expiresIn\": 30\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Shared Trip",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/share/trip/{{shareToken}}"
+          }
+        },
+        {
+          "name": "Generate Trip QR",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/share/trip/{{tripId}}/qr"
+          }
+        },
+        {
+          "name": "Invite User",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/api/share/trip/{{tripId}}/invite",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"friend@example.com\",\n  \"role\": \"editor\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "API Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/health"
+          }
+        },
+        {
+          "name": "Root Endpoint",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "your_jwt_token_here",
+      "type": "string"
+    },
+    {
+      "key": "tripId",
+      "value": "your_trip_id_here",
+      "type": "string"
+    },
+    {
+      "key": "placeId",
+      "value": "your_place_id_here",
+      "type": "string"
+    },
+    {
+      "key": "documentId",
+      "value": "your_document_id_here",
+      "type": "string"
+    },
+    {
+      "key": "shareToken",
+      "value": "your_share_token_here",
+      "type": "string"
+    }
+  ]
+}
