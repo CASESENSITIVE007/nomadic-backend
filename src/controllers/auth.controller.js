@@ -51,7 +51,7 @@ export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
   // Check for user
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
   if (!user) {
     return res.status(401).json({
       success: false,
@@ -130,12 +130,13 @@ export const updateProfile = asyncHandler(async (req, res) => {
 // @route   PUT /api/auth/change-password
 // @access  Private
 export const changePassword = asyncHandler(async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
+  const { currentPassword, oldPassword, newPassword } = req.body;
+  const passwordToCheck = currentPassword || oldPassword;
 
   const user = await User.findById(req.user._id).select('+password');
 
   // Check current password
-  const isMatch = await user.comparePassword(currentPassword);
+  const isMatch = await user.comparePassword(passwordToCheck);
   if (!isMatch) {
     return res.status(401).json({
       success: false,

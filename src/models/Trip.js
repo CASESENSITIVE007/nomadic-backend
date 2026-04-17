@@ -251,6 +251,11 @@ const tripSchema = new mongoose.Schema({
     enum: ['planning', 'ongoing', 'completed', 'cancelled'],
     default: 'planning'
   },
+  travelers: {
+    type: Number,
+    default: 1,
+    min: 1
+  },
   travelStyle: {
     type: String,
     enum: ['adventure', 'relaxed', 'cultural', 'foodie', 'nature', 'mixed'],

@@ -1,13 +1,6 @@
 import { User } from '../models/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
-import cloudinary from 'cloudinary';
-
-// Configure Cloudinary
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+import { uploadBuffer } from '../services/cloudinary.service.js';
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -62,12 +55,11 @@ export const uploadAvatar = asyncHandler(async (req, res) => {
   }
 
   try {
-    // Upload to Cloudinary
-    const result = await cloudinary.v2.uploader.upload(req.file.path, {
+    const result = await uploadBuffer(req.file.buffer, {
       folder: 'nomadic-view/avatars',
       width: 300,
       height: 300,
-      crop: 'fill'
+      crop: 'fill',
     });
 
     // Update user avatar

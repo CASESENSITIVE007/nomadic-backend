@@ -16,6 +16,7 @@ export const createTrip = asyncHandler(async (req, res) => {
     endDate,
     budget,
     travelStyle,
+    travelers,
     preferences,
     days: providedDays
   } = req.body;
@@ -77,6 +78,7 @@ export const createTrip = asyncHandler(async (req, res) => {
     endDate: end,
     days,
     budget: budget || { total: 0, spent: 0, currency: 'INR', categories: [] },
+    travelers: travelers || 1,
     travelStyle: travelStyle || 'mixed',
     collaborators: [{
       user: req.user._id,
@@ -212,7 +214,7 @@ export const updateTrip = asyncHandler(async (req, res) => {
 
   const allowedUpdates = [
     'name', 'description', 'destination', 'coverImage',
-    'days', 'budget', 'packingList', 'isPublic', 'status', 'travelStyle', 'tags'
+    'days', 'budget', 'packingList', 'isPublic', 'status', 'travelStyle', 'tags', 'travelers'
   ];
 
   const updates = {};

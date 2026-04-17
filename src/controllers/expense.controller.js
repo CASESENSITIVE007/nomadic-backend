@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Expense, Trip } from '../models/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
@@ -377,5 +378,3 @@ export const markSplitAsPaid = asyncHandler(async (req, res) => {
     data: expense
   });
 });
-
-import mongoose from 'mongoose';

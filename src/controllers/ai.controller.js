@@ -156,13 +156,8 @@ export const chatWithAI = asyncHandler(async (req, res) => {
   }
 
   try {
-     const model = await genAI.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt
-    });
+    let systemPrompt = `You are Nomadic AI, a helpful travel assistant for Nomadic View, a travel itinerary website focused on Indian destinations.
 
-    let systemPrompt = `You are Nomadic AI, a helpful travel assistant for Nomadic View, a travel itinerary website focused on Indian destinations. 
-    
 You provide friendly, concise advice about:
 - Travel planning and itineraries
 - Local recommendations for Indian cities and tourist spots
@@ -178,22 +173,15 @@ Keep responses helpful, friendly, and focused on travel in India. Be concise but
       systemPrompt += `\n\nContext about the user's current trip: ${JSON.stringify(context)}`;
     }
 
-    const chat = model.startChat({
-      history: [
-        {
-          role: 'user',
-          parts: [{ text: systemPrompt }]
-        },
-        {
-          role: 'model',
-          parts: [{ text: 'Understood! I am Nomadic AI, ready to help with your travel questions about India.' }]
-        }
-      ]
+    const response = await genAI.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: message,
+      config: {
+        systemInstruction: systemPrompt
+      }
     });
 
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const reply = response.text();
+    const reply = response.text;
 
     res.json({
       success: true,
